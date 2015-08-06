@@ -1,3 +1,7 @@
+"""Author: Ethan Hunter
+Program: Python-CommandLine"""
+
+
 from os import (listdir, path, chdir, mkdir, rmdir, remove)
 
 def get_directories():
