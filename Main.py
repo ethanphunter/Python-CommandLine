@@ -45,15 +45,15 @@ def getSettings(fileName):
 def main():
     flag = True
     commands = getSettings(SettingsFileName)
+    listDirs = commands[0]
     changeDirs = commands[1]
-    makeDir = cleanedCommands[2]
-    removeDir = cleanedCommands[3]
-    removeFile = cleanedCommands[4]
-    createFile = cleanedCommands[5]
+    makeDir = commands[2]
+    removeDir = commands[3]
+    removeFile = commands[4]
+    createFile = commands[5]
     commandPrompt = ">>>"
 
-    helpScreen = 
-    """    ls
+    helpScreen = """    ls
     cd
     dir
     mkdir
@@ -70,26 +70,26 @@ def main():
             commandPrompt = command.split(" ")[1]
         elif (command == "exit"):
             flag = False
-        elif (command == "ls" or command == "dir"):
+        elif (command in listDirs): #== "ls" or command == "dir"):
             print(getDirectories())
-        elif (command.split(" ")[0] == "cd"):
+        elif (command.split(" ")[0] in changeDirs): #== "cd"):
             chdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "mkdir"):
+        elif (command.split(" ")[0] in makeDir):  #== "mkdir"):
             if (len(command.split(" ")) > 2):
                 print("Directory name cannot have spaces")
             else:
                 mkdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "rmdir"):
+        elif (command.split(" ")[0] in removeDir): #== "rmdir"):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a directory with a space in the name")
             else:
                 rmdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "rm"):
+        elif (command.split(" ")[0] in removeFile): #== "rm"):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a file with a space in the name")
             else:
                 remove(command.split(" ")[1])
-        elif (command.split(" ")[0] == "touch" or command.split(" ")[0] == "make"):
+        elif (command.split(" ")[0] in createFile): #== "touch" or command.split(" ")[0] == "make"):
             if (len(command.split(" ")) > 2):
                 print("The fileName cannot have spaces")
             else:
