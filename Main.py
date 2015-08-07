@@ -22,6 +22,7 @@ def getDirectories():
         return directoryString.strip()
     else:
         return "    " + directoryString.strip()
+
 def cleanCommands(List):
     commandList = list()
     for commands in List:
@@ -42,6 +43,16 @@ def getSettings(fileName):
     file.close()
     return cleanCommands(commands)
 
+def createHelpScreen(commands):
+    commandsString = ""
+    for commandType in commands:
+        for command in commandType:
+            commandsString += "    " + command + "\n"
+
+    commandsString += "    exit"
+    return commandsString
+
+
 def main():
     flag = True
     commands = getSettings(SettingsFileName)
@@ -53,14 +64,7 @@ def main():
     createFile = commands[5]
     commandPrompt = ">>>"
 
-    helpScreen = """    ls
-    cd
-    dir
-    mkdir
-    rmdir
-    rm
-    touch
-    make"""
+    helpScreen = createHelpScreen(commands)
 
     while flag:
         command = input(commandPrompt + " ")
@@ -70,26 +74,26 @@ def main():
             commandPrompt = command.split(" ")[1]
         elif (command == "exit"):
             flag = False
-        elif (command in listDirs): #== "ls" or command == "dir"):
+        elif (command in listDirs): 
             print(getDirectories())
-        elif (command.split(" ")[0] in changeDirs): #== "cd"):
+        elif (command.split(" ")[0] in changeDirs):
             chdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in makeDir):  #== "mkdir"):
+        elif (command.split(" ")[0] in makeDir):
             if (len(command.split(" ")) > 2):
                 print("Directory name cannot have spaces")
             else:
                 mkdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in removeDir): #== "rmdir"):
+        elif (command.split(" ")[0] in removeDir):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a directory with a space in the name")
             else:
                 rmdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in removeFile): #== "rm"):
+        elif (command.split(" ")[0] in removeFile):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a file with a space in the name")
             else:
                 remove(command.split(" ")[1])
-        elif (command.split(" ")[0] in createFile): #== "touch" or command.split(" ")[0] == "make"):
+        elif (command.split(" ")[0] in createFile):
             if (len(command.split(" ")) > 2):
                 print("The fileName cannot have spaces")
             else:
