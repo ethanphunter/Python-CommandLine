@@ -1,0 +1,10 @@
+#To define mulitpule commands seperate them with a comma
+#This file is order specific, DO NOT change the order of the commands
+#All commands will be lowerCase
+
+ListDirContents = ls,dir
+ChangeDir = cd
+MakeDir = mkdir 
+RemoveDir = rmdir
+RemoveFile = rm
+CreateFile = touch,make

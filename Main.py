@@ -1,10 +1,15 @@
 """Author: Ethan Hunter
-Program: Python-CommandLine"""
+Program: Python-CommandLine
+I am not responsible for any damage this program may accidently have.
+By using this program, you agree to take responsibility for anything it may do.
+"""
 
+global SettingsFileName
+SettingsFileName = "Settings.txt"
 
 from os import (listdir, path, chdir, mkdir, rmdir, remove)
 
-def get_directories():
+def getDirectories():
     itemList = listdir('.')
     directoryString = ""
     for item in itemList:
@@ -17,12 +22,38 @@ def get_directories():
         return directoryString.strip()
     else:
         return "    " + directoryString.strip()
-            
+def cleanCommands(List):
+    commandList = list()
+    for commands in List:
+        com = list()
+        for command in commands:
+            com.append(command.strip().lower())
+        commandList.append(com)
+    return commandList
+
+def getSettings(fileName):
+    file = open(fileName, 'r')
+    commands = list()
+    for line in file:
+        if (list(line)[0] == "#" or line.strip() == ""):
+            continue
+        else:
+            commands.append(line.split('=')[1].split(','))
+    file.close()
+    return cleanCommands(commands)
+
 def main():
-    flag = True    
+    flag = True
+    commands = getSettings(SettingsFileName)
+    changeDirs = commands[1]
+    makeDir = cleanedCommands[2]
+    removeDir = cleanedCommands[3]
+    removeFile = cleanedCommands[4]
+    createFile = cleanedCommands[5]
     commandPrompt = ">>>"
 
-    helpScreen = """    ls
+    helpScreen = 
+    """    ls
     cd
     dir
     mkdir
@@ -40,7 +71,7 @@ def main():
         elif (command == "exit"):
             flag = False
         elif (command == "ls" or command == "dir"):
-            print(get_directories())
+            print(getDirectories())
         elif (command.split(" ")[0] == "cd"):
             chdir(command.split(" ")[1])
         elif (command.split(" ")[0] == "mkdir"):
