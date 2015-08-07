@@ -13,7 +13,10 @@ def get_directories():
         else:
             directoryString += ("    " + item)
         directoryString += "\n"
-    return directoryString.strip()
+    if (directoryString.split(" ")[0] == "DIR"):
+        return directoryString.strip()
+    else:
+        return "    " + directoryString.strip()
             
 def main():
     flag = True    
