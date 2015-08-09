@@ -1,6 +1,6 @@
 """Author: Ethan Hunter
 Program: Python-CommandLine
-I am not responsible for any damage this program may accidently have.
+I am not responsible for any damage this program may have.
 By using this program, you agree to take responsibility for anything it may do.
 """
 
@@ -52,6 +52,11 @@ def createHelpScreen(commands):
     commandsString += "    exit"
     return commandsString
 
+def getCommand(commandString):
+    return commandString.split(" ")[0]
+
+def getParameter(commandString):
+    return commandString.split(" ")[1]
 
 def main():
     flag = True
@@ -67,37 +72,40 @@ def main():
     helpScreen = createHelpScreen(commands)
 
     while flag:
-        command = input(commandPrompt + " ")
+        commandString = input(commandPrompt + " ")
+        command = getCommand(commandString)
+        if (len(commandString.split(" ")) > 1):
+            parameter = getParameter(commandString)
         if (command == "help"):
             print(helpScreen)
-        elif (command.split(" ")[0] == "PS1"):
-            commandPrompt = command.split(" ")[1]
+        elif (command == "PS1"):
+            commandPrompt = parameter
         elif (command == "exit"):
             flag = False
         elif (command in listDirs): 
             print(getDirectories())
-        elif (command.split(" ")[0] in changeDirs):
-            chdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in makeDir):
-            if (len(command.split(" ")) > 2):
+        elif (command in changeDirs):
+            chdir(parameter)
+        elif (command in makeDir):
+            if (len(commandString.split(" ")) > 2):
                 print("Directory name cannot have spaces")
             else:
-                mkdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in removeDir):
-            if (len(command.split(" ")) > 2):
+                mkdir(parameter)
+        elif (command in removeDir):
+            if (len(commandString.split(" ")) > 2):
                 print("Cannot remove a directory with a space in the name")
             else:
-                rmdir(command.split(" ")[1])
-        elif (command.split(" ")[0] in removeFile):
-            if (len(command.split(" ")) > 2):
+                rmdir(parameter)
+        elif (command in removeFile):
+            if (len(commandString.split(" ")) > 2):
                 print("Cannot remove a file with a space in the name")
             else:
-                remove(command.split(" ")[1])
-        elif (command.split(" ")[0] in createFile):
-            if (len(command.split(" ")) > 2):
+                remove(parameter)
+        elif (command in createFile):
+            if (len(commandString.split(" ")) > 2):
                 print("The fileName cannot have spaces")
             else:
-                fileName = command.split(" ")[1]
+                fileName = parameter
                 file = open(fileName, 'w')
                 file.close()
         elif (command.strip() == ""):
