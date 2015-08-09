@@ -1,10 +1,15 @@
 """Author: Ethan Hunter
-Program: Python-CommandLine"""
+Program: Python-CommandLine
+I am not responsible for any damage this program may accidently have.
+By using this program, you agree to take responsibility for anything it may do.
+"""
 
+global SettingsFileName
+SettingsFileName = "Settings.txt"
 
 from os import (listdir, path, chdir, mkdir, rmdir, remove)
 
-def get_directories():
+def getDirectories():
     itemList = listdir('.')
     directoryString = ""
     for item in itemList:
@@ -17,19 +22,49 @@ def get_directories():
         return directoryString.strip()
     else:
         return "    " + directoryString.strip()
-            
+
+def cleanCommands(List):
+    commandList = list()
+    for commands in List:
+        com = list()
+        for command in commands:
+            com.append(command.strip().lower())
+        commandList.append(com)
+    return commandList
+
+def getSettings(fileName):
+    file = open(fileName, 'r')
+    commands = list()
+    for line in file:
+        if (list(line)[0] == "#" or line.strip() == ""):
+            continue
+        else:
+            commands.append(line.split('=')[1].split(','))
+    file.close()
+    return cleanCommands(commands)
+
+def createHelpScreen(commands):
+    commandsString = ""
+    for commandType in commands:
+        for command in commandType:
+            commandsString += "    " + command + "\n"
+
+    commandsString += "    exit"
+    return commandsString
+
+
 def main():
-    flag = True    
+    flag = True
+    commands = getSettings(SettingsFileName)
+    listDirs = commands[0]
+    changeDirs = commands[1]
+    makeDir = commands[2]
+    removeDir = commands[3]
+    removeFile = commands[4]
+    createFile = commands[5]
     commandPrompt = ">>>"
 
-    helpScreen = """    ls
-    cd
-    dir
-    mkdir
-    rmdir
-    rm
-    touch
-    make"""
+    helpScreen = createHelpScreen(commands)
 
     while flag:
         command = input(commandPrompt + " ")
@@ -39,26 +74,26 @@ def main():
             commandPrompt = command.split(" ")[1]
         elif (command == "exit"):
             flag = False
-        elif (command == "ls" or command == "dir"):
-            print(get_directories())
-        elif (command.split(" ")[0] == "cd"):
+        elif (command in listDirs): 
+            print(getDirectories())
+        elif (command.split(" ")[0] in changeDirs):
             chdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "mkdir"):
+        elif (command.split(" ")[0] in makeDir):
             if (len(command.split(" ")) > 2):
                 print("Directory name cannot have spaces")
             else:
                 mkdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "rmdir"):
+        elif (command.split(" ")[0] in removeDir):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a directory with a space in the name")
             else:
                 rmdir(command.split(" ")[1])
-        elif (command.split(" ")[0] == "rm"):
+        elif (command.split(" ")[0] in removeFile):
             if (len(command.split(" ")) > 2):
                 print("Cannot remove a file with a space in the name")
             else:
                 remove(command.split(" ")[1])
-        elif (command.split(" ")[0] == "touch" or command.split(" ")[0] == "make"):
+        elif (command.split(" ")[0] in createFile):
             if (len(command.split(" ")) > 2):
                 print("The fileName cannot have spaces")
             else:
