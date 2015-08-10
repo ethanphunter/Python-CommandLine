@@ -8,6 +8,7 @@ global SettingsFileName
 SettingsFileName = "Settings.txt"
 
 from os import (listdir, path, chdir, mkdir, rmdir, remove)
+from shutil import copy
 
 def getDirectories():
     itemList = listdir('.')
@@ -67,6 +68,7 @@ def main():
     removeDir = commands[3]
     removeFile = commands[4]
     createFile = commands[5]
+    copyFile = commands[6]
     commandPrompt = ">>>"
 
     helpScreen = createHelpScreen(commands)
@@ -108,6 +110,13 @@ def main():
                 fileName = parameter
                 file = open(fileName, 'w')
                 file.close()
+        elif (command in copyFile):
+            srcFileName = parameter
+            dstFileName = commandString.split(" ")[2]
+            if (srcFileName == dstFileName):
+                print("Destination fileName is the same as source fileName")
+            else:
+                copy(srcFileName,dstFileName)
         elif (command.strip() == ""):
             continue
         else:
