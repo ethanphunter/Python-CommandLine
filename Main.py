@@ -10,6 +10,7 @@ SettingsFileName = "Settings.txt"
 from os import (listdir, path, chdir, mkdir, rmdir, remove)
 
 def getDirectories():
+    """Returns a String of everything in the current working directory"""
     itemList = listdir('.')
     directoryString = ""
     for item in itemList:
@@ -24,6 +25,8 @@ def getDirectories():
         return "    " + directoryString.strip()
 
 def cleanCommands(List):
+    """Returns a list of list of commands of type String that have
+       white space removed"""
     commandList = list()
     for commands in List:
         com = list()
@@ -33,6 +36,8 @@ def cleanCommands(List):
     return commandList
 
 def getSettings(fileName):
+    """Returns a list of list of commands of type String retrieved
+       from the settings file passed in as fileName"""
     file = open(fileName, 'r')
     commands = list()
     for line in file:
@@ -44,6 +49,8 @@ def getSettings(fileName):
     return cleanCommands(commands)
 
 def createHelpScreen(commands):
+    """Takes a list of list of commands of type string and builds a
+       help screen string"""
     commandsString = ""
     for commandType in commands:
         for command in commandType:
@@ -54,6 +61,7 @@ def createHelpScreen(commands):
 
 
 def main():
+    """The Main function"""
     flag = True
     commands = getSettings(SettingsFileName)
     listDirs = commands[0]
