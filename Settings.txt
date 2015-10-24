@@ -8,3 +8,4 @@ MakeDir = mkdir
 RemoveDir = rmdir
 RemoveFile = rm
 CreateFile = touch,make
+CopyFile = cp
